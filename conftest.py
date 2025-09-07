@@ -31,20 +31,15 @@ def driver(browser_name, headless):
 @pytest.fixture
 def test_user():
     user_data = create_test_user()
-    yield user_data
-    delete_test_user(user_data)
+    try:
+        yield user_data
+    finally:
+        delete_test_user(user_data)
 
 
 @pytest.fixture
 def logged_in_user(driver, test_user):
     login_page = LoginPage(driver, URLs.LOGIN)
     login_page.login(test_user["email"], test_user["password"])
-
     login_page.wait_for_login_success()
-
-    yield test_user
-
-
-@pytest.fixture
-def recovery_test_user(test_user):
     yield test_user

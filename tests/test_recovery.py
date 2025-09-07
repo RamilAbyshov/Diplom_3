@@ -14,17 +14,17 @@ class TestPasswordRecovery:
         assert recovery_page.get_current_url() == URLs.FORGOT_PASSWORD
 
     @allure.title("Ввод почты и восстановление пароля")
-    def test_recovery_with_email(self, driver, recovery_test_user):
+    def test_recovery_with_email(self, driver, test_user):
         recovery_page = RecoveryPage(driver, URLs.FORGOT_PASSWORD)
-        recovery_page.type_email(recovery_test_user["email"])
+        recovery_page.type_email(test_user["email"])
         recovery_page.submit_recovery()
         recovery_page.wait_for_url_to_be(URLs.RESET_PASSWORD)
         assert recovery_page.get_current_url() == URLs.RESET_PASSWORD
 
     @allure.title("Клик по иконке показать/скрыть пароль делает поле активным")
-    def test_password_visibility_toggle(self, driver, recovery_test_user):
+    def test_password_visibility_toggle(self, driver, test_user):
         recovery_page = RecoveryPage(driver, URLs.FORGOT_PASSWORD)
-        recovery_page.type_email(recovery_test_user["email"])
+        recovery_page.type_email(test_user["email"])
         recovery_page.submit_recovery()
         recovery_page.wait_for_url_to_be(URLs.RESET_PASSWORD)
         recovery_page.click_show_password()
